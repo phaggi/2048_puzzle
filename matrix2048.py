@@ -27,7 +27,11 @@ class Matrix:
         self.matrix = [[0 for _ in range(self.size)] for _ in range(self.size)]
 
     def __repr__(self):
-        return str(m.matrix)
+        return str(self.matrix)
+
+    def add_random_pair(self):
+        pair = random.choice(self.get_zeros())
+        self.matrix[pair[0]][pair[1]] = 2
 
     def print_line(self, row, line):
         """
@@ -169,8 +173,7 @@ def the_2048_game():
                 if not len(zeros):
                     running = False
                 else:
-                    pair = random.choice(zeros)
-                    m.matrix[pair[0]][pair[1]] = 2
+                    m.add_random_pair()
                 m.print_matrix()
                 print(m.matrix)
         else:
