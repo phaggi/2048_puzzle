@@ -11,7 +11,16 @@ class Game:
         self.screen = ''
         self.matrix = ''
 
-    def draw_number(self, element, row_number, column_number):
+    def draw_number(self, element: int, row_number: int, column_number: int):
+        # TODO: repair errors
+        # TODO: make comments
+        """
+        draw number 'element' by coords
+        :param element: int
+        :param row_number: int
+        :param column_number: int
+        :return:
+        """
         font = pygame.font.SysFont('Arial', int(self.screen.get_width() / (4 * self.matrix.size)), bold=True)
         font_fg_color = BLACK
         font_bg_color = WHITE
@@ -28,11 +37,21 @@ class Game:
         pygame.display.update()
 
     def draw_numbers(self):
+        """
+        draw all numbers
+        :return:
+        """
         for row_number, row in enumerate(self.matrix.matrix):
             for column_number, element in enumerate(row):
                 self.draw_number(element, row_number, column_number)
 
-    def draw(self, screen, matrix):
+    def draw(self, screen: pygame.display, matrix: Matrix):
+        """
+        draw grid and call draw numbers
+        :param screen:
+        :param matrix:
+        :return:
+        """
         self.screen = screen
         self.matrix = matrix
         block_size = WINDOW_WIDTH / self.matrix.size  # Set the size of the grid block
@@ -46,6 +65,11 @@ class Game:
 
 class StartMenu:
     def draw(self, screen):
+        """
+        TODO: make startmenu in future
+        :param screen:
+        :return:
+        """
         pass
 
 
@@ -59,12 +83,20 @@ class GameManager:
         self.matrix = matrix
 
     def update(self):
+        """
+        update game screen
+        :return:
+        """
         if self.scene == 0:
             self.startMenu.draw(self.screen)
         if self.scene == 1:
             self.game.draw(self.screen, self.matrix)
 
     def process(self):
+        """
+        goto process of game
+        :return:
+        """
         if self.button_clicked:
             self.scene = 1
 
@@ -87,7 +119,7 @@ if __name__ == '__main__':
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            if event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN:  # detect pressed key
                 if event.key == pygame.K_LEFT:
                     direction = 'left'
                     manager.button_clicked = True
@@ -101,12 +133,12 @@ if __name__ == '__main__':
                     direction = 'down'
                     manager.button_clicked = True
 
-        if manager.button_clicked:
+        if manager.button_clicked:  # update display if pressed key
             manager.update()
             manager.process()
             gamematrix.move_numbers(direction=direction)
             gamematrix.add_random_pair()
-            manager.button_clicked = False
+            manager.button_clicked = False  # stop automatic update display
             pygame.display.flip()
 
     pygame.quit()
