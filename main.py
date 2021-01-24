@@ -54,6 +54,7 @@ class Game:
         """
         self.screen = screen
         self.matrix = matrix
+        self.screen.fill(WHITE)
         block_size = WINDOW_WIDTH / self.matrix.size  # Set the size of the grid block
         for x in range(WINDOW_WIDTH):
             for y in range(WINDOW_HEIGHT):
@@ -101,6 +102,27 @@ class GameManager:
             self.scene = 1
 
 
+def get_pressed_key(event):
+    """
+
+    :param event:
+    :return: str direction
+    """
+    direction = ''
+    if event.key == pygame.K_LEFT:
+        direction = 'left'
+        manager.button_clicked = True
+    elif event.key == pygame.K_RIGHT:
+        direction = 'right'
+        manager.button_clicked = True
+    elif event.key == pygame.K_UP:
+        direction = 'up'
+        manager.button_clicked = True
+    elif event.key == pygame.K_DOWN:
+        direction = 'down'
+        manager.button_clicked = True
+    return direction
+
 if __name__ == '__main__':
     BLACK = (0, 0, 0)
     WHITE = (200, 200, 200)
@@ -115,29 +137,19 @@ if __name__ == '__main__':
     manager = GameManager(screen, gamematrix)
 
     running = True
+    direction = ''
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.KEYDOWN:  # detect pressed key
-                if event.key == pygame.K_LEFT:
-                    direction = 'left'
-                    manager.button_clicked = True
-                elif event.key == pygame.K_RIGHT:
-                    direction = 'right'
-                    manager.button_clicked = True
-                elif event.key == pygame.K_UP:
-                    direction = 'up'
-                    manager.button_clicked = True
-                elif event.key == pygame.K_DOWN:
-                    direction = 'down'
-                    manager.button_clicked = True
-
+                direction = get_pressed_key(event=event)
         if manager.button_clicked:  # update display if pressed key
-            manager.update()
-            manager.process()
             gamematrix.move_numbers(direction=direction)
             gamematrix.add_random_pair()
+            gamematrix.print_matrix()
+            manager.update()
+            manager.process()
             manager.button_clicked = False  # stop automatic update display
             pygame.display.flip()
 
