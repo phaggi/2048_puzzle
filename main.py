@@ -25,6 +25,8 @@ class Game:
         font_fg_color = BLACK
         font_bg_color = WHITE
         # render a given font into an image
+        if element == 0:
+            element = ' '
         img = font.render(str(element), True,
                           pygame.Color(font_fg_color),
                           pygame.Color(font_bg_color))
@@ -124,6 +126,7 @@ def get_pressed_key(event):
     return direction
 
 if __name__ == '__main__':
+    test = False
     BLACK = (0, 0, 0)
     WHITE = (200, 200, 200)
     WINDOW_HEIGHT = 600
@@ -147,10 +150,10 @@ if __name__ == '__main__':
         if manager.button_clicked:  # update display if pressed key
             gamematrix.move_numbers(direction=direction)
             gamematrix.add_random_pair()
-            gamematrix.print_matrix()
+            if test: gamematrix.print_matrix()
             manager.update()
             manager.process()
             manager.button_clicked = False  # stop automatic update display
-            pygame.display.flip()
+        pygame.display.flip()
 
     pygame.quit()
