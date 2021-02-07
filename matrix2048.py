@@ -1,4 +1,8 @@
 import random
+import unittest
+from unittest.mock import patch
+
+
 from copy import deepcopy
 
 
@@ -22,8 +26,11 @@ class Constants:
 
 
 class Matrix:
-    def __init__(self, size):
-        self.size = size
+    def __init__(self, size=None):
+        if size:
+            self.size = size
+        else:
+            self.size = 4
         self.matrix = [[0 for _ in range(self.size)] for _ in range(self.size)]
 
     def __repr__(self):
@@ -40,30 +47,35 @@ class Matrix:
         :param line:
         :return:
         """
-        print(line)
+
+        result = line + '\n'
         for element in row:
             if element == 0:
                 element = ''
-            print(f'|{str(element):^6s}', end='')
-        print('|')
+            result += f'|{str(element):^6s}'
+        result += '|'
+        print(result)
+
+    def make_line(self):
+        return '-' * 7 * len(self.matrix) + '-'
 
     def print_matrix(self):
-        line = '-' * 7 * len(self.matrix) + '-'
+        line = self.make_line()
         for row in self.matrix:
             self.print_line(row, line)
         print(line)
         return ''
 
-    def add_number(self, row, col, value):
+    def add_number(self, row_num, col_num, value):
         """
 
-        :param row:
-        :param col:
+        :param row_num:
+        :param col_num:
         :param value:
         :return:
         """
-        row = self.matrix[row]
-        row[col] = value
+        row = self.matrix[row_num]
+        row[col_num] = value
 
     def move_numbers(self, direction):
         """
@@ -186,7 +198,56 @@ def the_2048_game():
             continue
 
 
+class TestStringMethods(unittest.TestCase):
+    def setUp(self) -> None:
+        self.matrix = Matrix()
+
+    def test_init_matrix(self):
+        result = str([[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])
+        self.matrix = Matrix()
+        self.assertEqual(str(Matrix()), result)
+
+    def test_get_zeros(self):
+        result = str([[0, 0], [0, 1], [0, 2], [0, 3], [1, 0], [1, 1], [1, 2], [1, 3],
+                      [2, 0], [2, 1], [2, 2], [2, 3], [3, 0], [3, 1], [3, 2], [3, 3]]
+                     )
+        self.matrix = Matrix()
+        self.assertEqual(str(self.matrix.get_zeros()), result)
+
+    @patch('builtins.print')
+    def test_print_matrix(self, mock_print):
+        result = '''-----------------------------'''
+        self.matrix = Matrix()
+        self.matrix.print_matrix()
+        mock_print.assert_called_with(result)
+
+    @patch('builtins.print')
+    def test_print_line(self, mock_print):
+        line = '''-----------------------------'''
+        result = '''-----------------------------\n|  2   |      |      |      |'''
+        self.matrix = Matrix()
+        self.matrix.add_number(0, 0, 2)
+        self.matrix.print_line(self.matrix.matrix[0], line)
+        mock_print.assert_called_with(result)
+
+    '''
+    def test_split(self):
+        s = 'hello world'
+        self.assertEqual(s.split(), ['hello', 'world'])
+        # Проверим, что s.split не работает, если разделитель - не строка
+        with self.assertRaises(TypeError):
+            s.split(2)'''
+
+
+
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
+    utest = True
+    #utest = False
+    if utest:
+        unittest.main()
+
     testfinal = False
-    the_2048_game()
+    #the_2048_game()
+    matrix = Matrix(5)
+    matrix.print_matrix()
