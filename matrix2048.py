@@ -66,7 +66,7 @@ class Matrix:
     def print_matrix(self):
         """
         covered unittest
-        TODO: need refactor - strings > result, print(result), and refactor unittest
+        TODO: need to refactor - strings > result, print(result), and refactor unittest
         :return:
         """
         line = self.make_line()
@@ -77,7 +77,7 @@ class Matrix:
 
     def add_number(self, row_num, col_num, value):
         """
-
+        covered unittest
         :param row_num:
         :param col_num:
         :param value:
@@ -246,6 +246,15 @@ class TestStringMethods(unittest.TestCase):
         self.matrix.add_number(0, 0, 2)
         self.matrix.print_line(self.matrix.matrix[0], line)
         mock_print.assert_called_with(result)
+
+    def test_add_number(self):
+        result1 = [[2, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+        result2 = [[2, 0, 0, 0], [0, 2, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+        self.matrix = Matrix()
+        self.matrix.add_number(0, 0, 2)
+        self.assertEqual(self.matrix.matrix, result1)
+        self.matrix.add_number(1, 1, 2)
+        self.assertEqual(self.matrix.matrix, result2)
 
     '''
     def test_split(self):
