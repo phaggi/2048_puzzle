@@ -123,7 +123,11 @@ class Matrix:
             return result
 
     def end_detector(self):
-        return True
+        result = False
+        for row in self.matrix:
+            if 2048 in row:
+                result = True
+        return result
 
     def move_left(self, row):
         """
@@ -167,19 +171,22 @@ def the_2048_game():
                 running = False
                 print('Bye')
             else:
-                running = m.end_detector()
                 m.move_numbers(game_keys[key])
                 zeros = m.get_zeros()
                 if not len(zeros):
                     running = False
                 else:
                     m.add_random_pair()
+                    if testfinal: m.add_number(0, 0, 2048)
                 m.print_matrix()
-                print(m.matrix)
+                if m.end_detector():
+                    running = False
+                    print('You win!')
         else:
             continue
 
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
+    testfinal = False
     the_2048_game()
