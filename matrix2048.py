@@ -42,7 +42,7 @@ class Matrix:
 
     def print_line(self, row, line):
         """
-
+        covered unittest
         :param row:
         :param line:
         :return:
@@ -60,6 +60,11 @@ class Matrix:
         return '-' * 7 * len(self.matrix) + '-'
 
     def print_matrix(self):
+        """
+        covered unittest
+        TODO: need refactor - strings > result, print(result), and refactor unittest
+        :return:
+        """
         line = self.make_line()
         for row in self.matrix:
             self.print_line(row, line)
