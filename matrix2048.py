@@ -2,7 +2,6 @@ import random
 import unittest
 from unittest.mock import patch
 
-
 from copy import deepcopy
 
 
@@ -271,6 +270,30 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(self.matrix.matrix, result3)
         self.matrix.move_left(row=self.matrix.matrix[1])
         self.assertEqual(self.matrix.matrix, result4)
+
+    def test_move_element(self):
+        """
+        covered unittest
+        TODO: refactor unittest
+        :return:
+        """
+        self.matrix = Matrix()
+        counter = 2
+        while counter:
+            results = [
+                [[[0, 0, 0, 0], [4, 2, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
+                 [[0, 0, 0, 0], [4, 2, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]],
+                [[[0, 0, 0, 0], [0, 0, 2, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
+                 [[0, 0, 0, 0], [0, 2, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]],
+                [[[0, 0, 0, 0], [0, 0, 0, 2], [0, 0, 0, 0], [0, 0, 0, 0]],
+                 [[0, 0, 0, 0], [0, 0, 2, 0], [0, 0, 0, 0], [0, 0, 0, 0]]]
+            ]
+            self.matrix.add_number(1, counter + 1, 2)
+            self.assertEqual(self.matrix.matrix, results[counter][0])
+            self.matrix.move_element(i=counter+1, row=self.matrix.matrix[1])
+            self.assertEqual(self.matrix.matrix, results[counter][1])
+            counter -= 1
+
     '''
     def test_split(self):
         s = 'hello world'
@@ -280,15 +303,14 @@ class TestStringMethods(unittest.TestCase):
             s.split(2)'''
 
 
-
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     utest = True
-    #utest = False
+    # utest = False
     if utest:
         unittest.main()
 
     testfinal = False
-    #the_2048_game()
+    # the_2048_game()
     matrix = Matrix(5)
     matrix.print_matrix()
