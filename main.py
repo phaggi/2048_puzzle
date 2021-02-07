@@ -7,36 +7,44 @@ class Game:
     # def draw(self, screen):
     #    pygame.draw.rect(screen, (0, 0, 255), (200, 150, 100, 50))
 
-    def __init__(self):
-        self.screen = ''
-        self.matrix = ''
+    def __init__(self, screen, matrix):
+        self.screen = screen
+        self.matrix = matrix
+        self.element = 0
 
-    def draw_number(self, element: int, row_number: int, column_number: int):
+    def make_img(self):
+        # render a given font into an image
+        font_fg_color = BLACK
+        font_bg_color = WHITE
+        font = pygame.font.SysFont('Arial', int(self.screen.get_width() / (4 * self.matrix.size)), bold=True)
+        return font.render(str(self.element), True,
+                           pygame.Color(font_fg_color),
+                           pygame.Color(font_bg_color))
+
+    def check_element(self):
+        if self.element == 0:
+            self.element = ' '
+        elif self.element == 2048:
+            self.element = 'You win!'
+
+    def draw_number(self, row_number: int, column_number: int):
         # TODO: repair errors
         # TODO: make comments
         """
         draw number 'element' by coords
-        :param element: int
         :param row_number: int
         :param column_number: int
         :return:
         """
-        font = pygame.font.SysFont('Arial', int(self.screen.get_width() / (4 * self.matrix.size)), bold=True)
-        font_fg_color = BLACK
-        font_bg_color = WHITE
-        # render a given font into an image
-        if element == 0:
-            element = ' '
-        img = font.render(str(element), True,
-                          pygame.Color(font_fg_color),
-                          pygame.Color(font_bg_color))
 
         # and finally put it onto the surface.
         # the code below centres text image
+        self.check_element()
+        img = self.make_img()
         number_width = (self.screen.get_width() * (column_number * 2 + 1) / self.matrix.size - img.get_width()) / 2
         number_height = (self.screen.get_height() * (row_number * 2 + 1) / self.matrix.size - img.get_height()) / 2
         self.screen.blit(img, (number_width, number_height))
-        pygame.display.update()
+        pygame.display.flip()
 
     def draw_numbers(self):
         """
@@ -44,8 +52,8 @@ class Game:
         :return:
         """
         for row_number, row in enumerate(self.matrix.matrix):
-            for column_number, element in enumerate(row):
-                self.draw_number(element, row_number, column_number)
+            for column_number, self.element in enumerate(row):
+                self.draw_number(row_number, column_number)
 
     def draw(self, screen: pygame.display, matrix: Matrix):
         """
@@ -76,14 +84,21 @@ class StartMenu:
         pass
 
 
+class Final:
+    def draw(self, screen, game):
+        screen.fill(WHITE)
+        game.draw_number(1, 1)
+
+
 class GameManager:
     def __init__(self, screen, matrix):
         self.screen = screen
+        self.matrix = matrix
         self.scene = 0
         self.button_clicked = False
-        self.game = Game()
+        self.game = Game(screen=self.screen, matrix=self.matrix)
         self.startMenu = StartMenu()
-        self.matrix = matrix
+        self.final = Final()
 
     def update(self):
         """
@@ -94,33 +109,35 @@ class GameManager:
             self.startMenu.draw(self.screen)
         if self.scene == 1:
             self.game.draw(self.screen, self.matrix)
+        if self.scene == 2:
+            self.final.draw(self.screen, self.game)
 
     def process(self):
         """
         goto process of game
         :return:
         """
-        if self.button_clicked:
+        if self.matrix.end_detector():
+            self.scene = 2
+        elif self.button_clicked:
             self.scene = 1
 
 
-def get_pressed_key(event):
+def get_pressed_key(scancode, event):
     """
 
     :param event:
     :return: str direction
     """
-    key_clicked = False
-
-
-    return direction, key_clicked
+    return dict_of_keys.get(scancode, None), True
 
 
 if __name__ == '__main__':
     test = False
+    testfinal = False
     BLACK = (0, 0, 0)
     WHITE = (200, 200, 200)
-    WINDOW_HEIGHT = 600
+    WINDOW_HEIGHT = 400
     WINDOW_WIDTH = WINDOW_HEIGHT
     quantity_of_squares = 5
     dict_of_keys = {80: 'left',
@@ -144,11 +161,11 @@ if __name__ == '__main__':
             if event.type == pygame.KEYDOWN:  # detect pressed key
                 scancode = event.scancode
                 if scancode in dict_of_keys.keys():
-                    direction = dict_of_keys.get(scancode, None)
-                    manager.button_clicked = get_pressed_key(event=event)
+                    direction, manager.button_clicked = get_pressed_key(scancode=scancode, event=event)
         if manager.button_clicked:  # update display if pressed key
             gamematrix.move_numbers(direction=direction)
             gamematrix.add_random_pair()
+            if testfinal: gamematrix.add_number(0, 0, 2048)
             if test: gamematrix.print_matrix()
             manager.update()
             manager.process()
