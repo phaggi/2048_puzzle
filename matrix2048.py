@@ -152,6 +152,7 @@ class Matrix:
 
     def move_left(self, row):
         """
+        covered unittest
         :param row:
         :return:
         """
@@ -256,6 +257,20 @@ class TestStringMethods(unittest.TestCase):
         self.matrix.add_number(1, 1, 2)
         self.assertEqual(self.matrix.matrix, result2)
 
+    def test_move_left(self):
+        result1 = [[0, 0, 0, 0], [0, 2, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+        result2 = [[0, 0, 0, 0], [2, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+        result3 = [[0, 0, 0, 0], [2, 2, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+        result4 = [[0, 0, 0, 0], [4, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+        self.matrix = Matrix()
+        self.matrix.add_number(1, 1, 2)
+        self.assertEqual(self.matrix.matrix, result1)
+        self.matrix.move_left(row=self.matrix.matrix[1])
+        self.assertEqual(self.matrix.matrix, result2)
+        self.matrix.add_number(1, 1, 2)
+        self.assertEqual(self.matrix.matrix, result3)
+        self.matrix.move_left(row=self.matrix.matrix[1])
+        self.assertEqual(self.matrix.matrix, result4)
     '''
     def test_split(self):
         s = 'hello world'
