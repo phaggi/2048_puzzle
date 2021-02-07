@@ -165,6 +165,11 @@ class Matrix:
             self.move_left(row)
 
     def get_zeros(self):
+        """
+        covered unittest
+
+        :return:
+        """
         zeros = []
         for i, row in enumerate(self.matrix):
             for j, element in enumerate(row):
