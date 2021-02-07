@@ -27,6 +27,10 @@ class Constants:
 
 class Matrix:
     def __init__(self, size=None):
+        """
+        covered unittest
+        :param size:
+        """
         if size:
             self.size = size
         else:
@@ -211,6 +215,9 @@ class TestStringMethods(unittest.TestCase):
         result = str([[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])
         self.matrix = Matrix()
         self.assertEqual(str(Matrix()), result)
+        self.assertEqual(str(self.matrix), str(Matrix(4)))
+        self.assertEqual(self.matrix.size, 4)
+        self.assertEqual(Matrix(5).size, 5)
 
     def test_get_zeros(self):
         result = str([[0, 0], [0, 1], [0, 2], [0, 3], [1, 0], [1, 1], [1, 2], [1, 3],
