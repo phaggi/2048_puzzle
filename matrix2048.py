@@ -156,6 +156,10 @@ class Matrix:
             return result
 
     def end_detector(self):
+        """
+        covered unittest
+        :return:
+        """
         result = False
         for row in self.matrix:
             if 2048 in row:
@@ -318,6 +322,15 @@ class TestStringMethods(unittest.TestCase):
         self.matrix = Matrix()
         self.assertEqual(self.matrix.make_line(), result)
 
+    def test_end_detector(self):
+        self.matrix = Matrix()
+        self.assertFalse(self.matrix.end_detector())
+        self.matrix.add_number(1, 1, 2)
+        self.assertFalse(self.matrix.end_detector())
+        self.matrix.add_number(1, 1, 2048)
+        self.assertTrue(self.matrix.end_detector())
+        self.matrix.add_number(2, 2, 2048)
+        self.assertTrue(self.matrix.end_detector())
 
     '''
     def test_split(self):
