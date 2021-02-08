@@ -37,9 +37,17 @@ class Matrix:
         self.matrix = [[0 for _ in range(self.size)] for _ in range(self.size)]
 
     def __repr__(self):
+        """
+
+        :return:
+        """
         return str(self.matrix)
 
     def add_random_pair(self):
+        """
+
+        :return:
+        """
         pair = random.choice(self.get_zeros())
         self.matrix[pair[0]][pair[1]] = 2
 
@@ -60,6 +68,10 @@ class Matrix:
         print(result)
 
     def make_line(self):
+        """
+        covered unittest
+        :return:
+        """
         return '-' * 7 * len(self.matrix) + '-'
 
     def print_matrix(self):
@@ -300,6 +312,13 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(self.matrix.matrix, result2)
         self.matrix.rotate_matrix(number=3)
         self.assertEqual(self.matrix.matrix, result1)
+
+    def test_make_line(self):
+        result = '-----------------------------'
+        self.matrix = Matrix()
+        self.assertEqual(self.matrix.make_line(), result)
+
+
     '''
     def test_split(self):
         s = 'hello world'
