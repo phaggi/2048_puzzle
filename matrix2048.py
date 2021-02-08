@@ -99,7 +99,7 @@ class Matrix:
 
     def move_numbers(self, direction):
         """
-
+        covered unittest
         :param direction:
         :return:
         """
@@ -119,7 +119,7 @@ class Matrix:
             self.move_matrix()
             self.rotate_matrix(2)
         else:
-            pass
+            result = False
         return result
 
     def rotate_matrix(self, number=1):
@@ -178,6 +178,11 @@ class Matrix:
                     self.move_left(row)
 
     def move_matrix(self):
+        """
+        covered unittest
+
+        :return:
+        """
         for row in self.matrix:
             self.move_left(row)
 
@@ -231,65 +236,65 @@ def the_2048_game():
 
 class TestStringMethods(unittest.TestCase):
     def setUp(self) -> None:
-        self.matrix = Matrix()
+        self.test_matrix = Matrix()
 
     def test_init_matrix(self):
         result = str([[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]])
-        self.matrix = Matrix()
+        self.test_matrix = Matrix()
         self.assertEqual(str(Matrix()), result)
-        self.assertEqual(str(self.matrix), str(Matrix(4)))
-        self.assertEqual(self.matrix.size, 4)
+        self.assertEqual(str(self.test_matrix), str(Matrix(4)))
+        self.assertEqual(self.test_matrix.size, 4)
         self.assertEqual(Matrix(5).size, 5)
 
     def test_get_zeros(self):
         result = str([[0, 0], [0, 1], [0, 2], [0, 3], [1, 0], [1, 1], [1, 2], [1, 3],
                       [2, 0], [2, 1], [2, 2], [2, 3], [3, 0], [3, 1], [3, 2], [3, 3]]
                      )
-        self.matrix = Matrix()
-        self.assertEqual(str(self.matrix.get_zeros()), result)
+        self.test_matrix = Matrix()
+        self.assertEqual(str(self.test_matrix.get_zeros()), result)
 
     @patch('builtins.print')
     def test_print_matrix(self, mock_print):
         result = '''-----------------------------'''
-        self.matrix = Matrix()
-        self.matrix.print_matrix()
+        self.test_matrix = Matrix()
+        self.test_matrix.print_matrix()
         mock_print.assert_called_with(result)
 
     @patch('builtins.print')
     def test_print_line(self, mock_print):
         line = '''-----------------------------'''
         result = '''-----------------------------\n|  2   |      |      |      |'''
-        self.matrix = Matrix()
-        self.matrix.add_number(0, 0, 2)
-        self.matrix.print_line(self.matrix.matrix[0], line)
+        self.test_matrix = Matrix()
+        self.test_matrix.add_number(0, 0, 2)
+        self.test_matrix.print_line(self.test_matrix.matrix[0], line)
         mock_print.assert_called_with(result)
 
     def test_add_number(self):
         result1 = [[2, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
         result2 = [[2, 0, 0, 0], [0, 2, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
-        self.matrix = Matrix()
-        self.matrix.add_number(0, 0, 2)
-        self.assertEqual(self.matrix.matrix, result1)
-        self.matrix.add_number(1, 1, 2)
-        self.assertEqual(self.matrix.matrix, result2)
+        self.test_matrix = Matrix()
+        self.test_matrix.add_number(0, 0, 2)
+        self.assertEqual(self.test_matrix.matrix, result1)
+        self.test_matrix.add_number(1, 1, 2)
+        self.assertEqual(self.test_matrix.matrix, result2)
 
     def test_move_left(self):
         result1 = [[0, 0, 0, 0], [0, 2, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
         result2 = [[0, 0, 0, 0], [2, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
         result3 = [[0, 0, 0, 0], [2, 2, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
         result4 = [[0, 0, 0, 0], [4, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
-        self.matrix = Matrix()
-        self.matrix.add_number(1, 1, 2)
-        self.assertEqual(self.matrix.matrix, result1)
-        self.matrix.move_left(row=self.matrix.matrix[1])
-        self.assertEqual(self.matrix.matrix, result2)
-        self.matrix.add_number(1, 1, 2)
-        self.assertEqual(self.matrix.matrix, result3)
-        self.matrix.move_left(row=self.matrix.matrix[1])
-        self.assertEqual(self.matrix.matrix, result4)
+        self.test_matrix = Matrix()
+        self.test_matrix.add_number(1, 1, 2)
+        self.assertEqual(self.test_matrix.matrix, result1)
+        self.test_matrix.move_left(row=self.test_matrix.matrix[1])
+        self.assertEqual(self.test_matrix.matrix, result2)
+        self.test_matrix.add_number(1, 1, 2)
+        self.assertEqual(self.test_matrix.matrix, result3)
+        self.test_matrix.move_left(row=self.test_matrix.matrix[1])
+        self.assertEqual(self.test_matrix.matrix, result4)
 
     def test_move_element(self):
-        self.matrix = Matrix()
+        self.test_matrix = Matrix()
         counter = 2
         while counter:
             results = [
@@ -300,37 +305,85 @@ class TestStringMethods(unittest.TestCase):
                 [[[0, 0, 0, 0], [0, 0, 0, 2], [0, 0, 0, 0], [0, 0, 0, 0]],
                  [[0, 0, 0, 0], [0, 0, 2, 0], [0, 0, 0, 0], [0, 0, 0, 0]]]
             ]
-            self.matrix.add_number(1, counter + 1, 2)
-            self.assertEqual(self.matrix.matrix, results[counter][0])
-            self.matrix.move_element(i=counter+1, row=self.matrix.matrix[1])
-            self.assertEqual(self.matrix.matrix, results[counter][1])
+            self.test_matrix.add_number(1, counter + 1, 2)
+            self.assertEqual(self.test_matrix.matrix, results[counter][0])
+            self.test_matrix.move_element(i=counter + 1, row=self.test_matrix.matrix[1])
+            self.assertEqual(self.test_matrix.matrix, results[counter][1])
             counter -= 1
 
     def test_rotate_matrix(self):
         result1 = [[0, 0, 0, 0], [0, 2, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
         result2 = [[0, 0, 0, 0], [0, 0, 2, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
-        self.matrix = Matrix()
-        self.matrix.add_number(1, 1, 2)
-        self.assertEqual(self.matrix.matrix, result1)
-        self.matrix.rotate_matrix(number=1)
-        self.assertEqual(self.matrix.matrix, result2)
-        self.matrix.rotate_matrix(number=3)
-        self.assertEqual(self.matrix.matrix, result1)
+        self.test_matrix = Matrix()
+        self.test_matrix.add_number(1, 1, 2)
+        self.assertEqual(self.test_matrix.matrix, result1)
+        self.test_matrix.rotate_matrix(number=1)
+        self.assertEqual(self.test_matrix.matrix, result2)
+        self.test_matrix.rotate_matrix(number=3)
+        self.assertEqual(self.test_matrix.matrix, result1)
 
     def test_make_line(self):
         result = '-----------------------------'
-        self.matrix = Matrix()
-        self.assertEqual(self.matrix.make_line(), result)
+        self.test_matrix = Matrix()
+        self.assertEqual(self.test_matrix.make_line(), result)
 
     def test_end_detector(self):
-        self.matrix = Matrix()
-        self.assertFalse(self.matrix.end_detector())
-        self.matrix.add_number(1, 1, 2)
-        self.assertFalse(self.matrix.end_detector())
-        self.matrix.add_number(1, 1, 2048)
-        self.assertTrue(self.matrix.end_detector())
-        self.matrix.add_number(2, 2, 2048)
-        self.assertTrue(self.matrix.end_detector())
+        self.test_matrix = Matrix()
+        self.assertFalse(self.test_matrix.end_detector())
+        self.test_matrix.add_number(1, 1, 2)
+        self.assertFalse(self.test_matrix.end_detector())
+        self.test_matrix.add_number(1, 1, 2048)
+        self.assertTrue(self.test_matrix.end_detector())
+        self.test_matrix.add_number(2, 2, 2048)
+        self.assertTrue(self.test_matrix.end_detector())
+
+    def test_move_matrix(self):
+        result0 = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+        result1 = [[0, 0, 0, 0], [0, 2, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+        result2 = [[0, 0, 0, 0], [2, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+        self.test_matrix = Matrix()
+        self.test_matrix.move_matrix()
+        self.assertEqual(self.test_matrix.matrix, result0)
+        self.test_matrix.add_number(1, 1, 2)
+        self.assertEqual(self.test_matrix.matrix, result1)
+        self.test_matrix.move_matrix()
+        self.assertEqual(self.test_matrix.matrix, result2)
+
+    def test_move_numbers(self):
+        result0 = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+        result1 = [[0, 0, 0, 0], [0, 2, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+        result2 = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 2, 0, 0]]
+        result3 = [[0, 2, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+        result4 = [[0, 0, 0, 2], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+        result5 = [[2, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+        self.test_matrix = Matrix()
+        self.assertEqual(self.test_matrix.matrix, result0)
+        self.test_matrix.add_number(1, 1, 2)
+        self.assertEqual(self.test_matrix.matrix, result1)
+        self.assertTrue(self.test_matrix.move_numbers('down'))
+        self.assertEqual(self.test_matrix.matrix, result2)
+        self.assertTrue(self.test_matrix.move_numbers('up'))
+        self.assertEqual(self.test_matrix.matrix, result3)
+        self.assertTrue(self.test_matrix.move_numbers('right'))
+        self.assertEqual(self.test_matrix.matrix, result4)
+        self.assertTrue(self.test_matrix.move_numbers('left'))
+        self.assertEqual(self.test_matrix.matrix, result5)
+        self.assertFalse(self.test_matrix.move_numbers(' '))
+        self.assertEqual(self.test_matrix.matrix, result5)
+        self.assertFalse(self.test_matrix.move_numbers(None))
+
+    def test_add_random_pair(self):
+        result0 = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+        result1 = [[0, 0, 0, 0], [0, 2, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+        self.test_matrix = Matrix()
+        self.assertEqual(self.test_matrix.matrix, result0)
+        self.test_matrix.add_number(1, 1, 2)
+        self.assertEqual(self.test_matrix.matrix, result1)
+        self.test_matrix.add_random_pair()
+        result2 = deepcopy(self.test_matrix.matrix)
+        self.assertEqual(self.test_matrix.matrix, result2)
+        self.test_matrix.add_random_pair()
+        self.assertNotEqual(self.test_matrix.matrix, result2)
 
     '''
     def test_split(self):
