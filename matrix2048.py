@@ -35,6 +35,7 @@ class Matrix:
         else:
             self.size = 4
         self.matrix = [[0 for _ in range(self.size)] for _ in range(self.size)]
+        self.running = True
 
     def __repr__(self):
         """
@@ -49,7 +50,10 @@ class Matrix:
         :return:
         """
         pair = random.choice(self.get_zeros())
-        self.matrix[pair[0]][pair[1]] = 2
+        if len(pair):
+            self.matrix[pair[0]][pair[1]] = 2
+        else:
+            self.running = False
 
     def print_line(self, row, line):
         """
@@ -200,10 +204,9 @@ class Matrix:
         return zeros
 
 
-def the_2048_game():
-    constants = Constants()
-    m = Matrix(constants.SIZE)
-    running = True
+def the_2048_game(size=Constants.SIZE):
+    m = Matrix(size)
+    running = m.running
     m.print_matrix()
     game_keys = {'w': 'up',
                  's': 'down',
@@ -217,19 +220,25 @@ def the_2048_game():
         if key in game_keys.keys():
             if key == ' ':
                 running = False
-                print('Bye')
+                result = 'Oh no...'
             else:
                 m.move_numbers(game_keys[key])
                 zeros = m.get_zeros()
                 if not len(zeros):
                     running = False
+                    result = 'You loose...'
                 else:
                     m.add_random_pair()
-                    if testfinal: m.add_number(0, 0, 2048)
+                    running = m.running
+                    if not running:
+                        result = 'You loose...'
                 m.print_matrix()
                 if m.end_detector():
                     running = False
-                    print('You win!')
+                    result = 'You win!'
+            if not running:
+                print(result)
+                print('Bye')
         else:
             continue
 
@@ -397,11 +406,7 @@ class TestStringMethods(unittest.TestCase):
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     utest = True
-    # utest = False
+    utest = False
     if utest:
         unittest.main()
-
-    testfinal = False
-    # the_2048_game()
-    matrix = Matrix(5)
-    matrix.print_matrix()
+    the_2048_game(3)
