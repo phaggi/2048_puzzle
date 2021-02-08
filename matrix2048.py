@@ -112,7 +112,7 @@ class Matrix:
 
     def rotate_matrix(self, number=1):
         """
-
+        covered unittest
         :param number:
         :return:
         """
@@ -121,7 +121,8 @@ class Matrix:
 
     def move_element(self, i, row):
         """
-
+        covered unittest
+        TODO: refactor unittest
         :param i:
         :param row:
         :return:
@@ -272,11 +273,6 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(self.matrix.matrix, result4)
 
     def test_move_element(self):
-        """
-        covered unittest
-        TODO: refactor unittest
-        :return:
-        """
         self.matrix = Matrix()
         counter = 2
         while counter:
@@ -294,6 +290,16 @@ class TestStringMethods(unittest.TestCase):
             self.assertEqual(self.matrix.matrix, results[counter][1])
             counter -= 1
 
+    def test_rotate_matrix(self):
+        result1 = [[0, 0, 0, 0], [0, 2, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+        result2 = [[0, 0, 0, 0], [0, 0, 2, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+        self.matrix = Matrix()
+        self.matrix.add_number(1, 1, 2)
+        self.assertEqual(self.matrix.matrix, result1)
+        self.matrix.rotate_matrix(number=1)
+        self.assertEqual(self.matrix.matrix, result2)
+        self.matrix.rotate_matrix(number=3)
+        self.assertEqual(self.matrix.matrix, result1)
     '''
     def test_split(self):
         s = 'hello world'
