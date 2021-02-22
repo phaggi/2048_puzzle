@@ -1,21 +1,22 @@
 import pygame, sys, random
 from pygame.color import THECOLORS
-from matrix2048 import Matrix
+from matrix2048 import Matrix, Constants
 
 
 class Game:
     # def draw(self, screen):
     #    pygame.draw.rect(screen, (0, 0, 255), (200, 150, 100, 50))
 
-    def __init__(self, screen, matrix):
+    def __init__(self, screen, matrix, constants):
         self.screen = screen
         self.matrix = matrix
         self.element = 0
+        self.WHITE, self.BLACK, self.WINDOW_WIDTH, self.WINDOW_HEIGHT = constants
 
     def make_img(self):
         # render a given font into an image
-        font_fg_color = BLACK
-        font_bg_color = WHITE
+        font_fg_color = self.BLACK
+        font_bg_color = self.WHITE
         font = pygame.font.SysFont('Arial', int(self.screen.get_width() / (4 * self.matrix.size)), bold=True)
         return font.render(str(self.element), True,
                            pygame.Color(font_fg_color),
@@ -64,30 +65,38 @@ class Game:
         """
         self.screen = screen
         self.matrix = matrix
-        self.screen.fill(WHITE)
-        block_size = WINDOW_WIDTH / self.matrix.size  # Set the size of the grid block
-        for x in range(WINDOW_WIDTH):
-            for y in range(WINDOW_HEIGHT):
+
+        self.screen.fill(self.WHITE)
+        block_size = self.WINDOW_WIDTH / self.matrix.size  # Set the size of the grid block
+        for x in range(self.WINDOW_WIDTH):
+            for y in range(self.WINDOW_HEIGHT):
                 rect = pygame.Rect(x * block_size, y * block_size,
                                    block_size, block_size)
-                pygame.draw.rect(screen, WHITE, rect, 1)
+                pygame.draw.rect(self.screen, self.WHITE, rect, 1)
         self.draw_numbers()
 
 
 class StartMenu:
-    def draw(self, screen):
+    def __init__(self, screen, constants):
+        self.screen = screen
+        self.WHITE = constants[0]
+
+    def draw(self):
         """
         TODO: make startmenu in future
-        :param screen:
-        :return:
         """
         pass
 
 
 class Final:
-    def draw(self, screen, game):
-        screen.fill(WHITE)
-        game.draw_number(1, 1)
+    def __init__(self, screen, game, constants):
+        self.screen = screen
+        self.game = game
+        self.WHITE = constants[0]
+
+    def draw(self, ):
+        self.screen.fill(self.WHITE)
+        self.game.draw_number(1, 1)
 
 
 class GameManager:
