@@ -100,26 +100,27 @@ class Final:
 
 
 class GameManager:
-    def __init__(self, screen, matrix):
+    def __init__(self, screen, matrix, constants):
         self.screen = screen
         self.matrix = matrix
         self.scene = 0
         self.button_clicked = False
-        self.game = Game(screen=self.screen, matrix=self.matrix)
-        self.startMenu = StartMenu()
-        self.final = Final()
+        self.game = Game(screen=self.screen, matrix=self.matrix, constants=constants)
+        self.startMenu = StartMenu(screen=self.screen, constants=constants)
+        self.final = Final(screen=self.screen, game=self.game, constants=constants)
 
     def update(self):
         """
         update game screen
         :return:
         """
+
         if self.scene == 0:
-            self.startMenu.draw(self.screen)
+            self.startMenu.draw()
         if self.scene == 1:
             self.game.draw(self.screen, self.matrix)
         if self.scene == 2:
-            self.final.draw(self.screen, self.game)
+            self.final.draw()
 
     def process(self):
         """
@@ -141,44 +142,65 @@ def get_pressed_key(scancode, event):
     return dict_of_keys.get(scancode, None), True
 
 
+class GameProcess:
+    def __init__(self):
+        self.test = False
+        self.testfinal = True
+        self.BLACK = Constants.BLACK
+        self.WHITE = Constants.WHITE
+        self.WINDOW_HEIGHT = self.WINDOW_WIDTH = Constants.WINDOW_HEIGHT
+        self.constants = (self.WHITE, self.BLACK, self.WINDOW_WIDTH, self.WINDOW_HEIGHT)
+        self.quantity_of_squares = Constants.SIZE
+        self.dict_of_keys = {80: 'left',
+                             79: 'right',
+                             82: 'up',
+                             81: 'down'
+                             }
+        self.pygame = pygame
+        self.pygame.init()
+        self.screen = self.pygame.display.set_mode([self.WINDOW_WIDTH, self.WINDOW_HEIGHT])
+        self.screen.fill([255, 255, 255])
+        self.gamematrix = Matrix(self.quantity_of_squares)
+        self.manager = GameManager(screen=self.screen, matrix=self.gamematrix, constants=self.constants)
+        self.direction = None
+        self.running = None
+
+    def get_pressed_key(self, scancode, event):
+        """
+
+        :param scancode:
+        :param event:
+        :return: str direction
+        """
+        return self.dict_of_keys.get(scancode, None), True
+
+    def start_game(self):
+        self.running = True
+        self.direction = ''
+        while self.running:
+            for event in self.pygame.event.get():
+                if event.type == self.pygame.QUIT:
+                    self.running = False
+                if event.type == pygame.KEYDOWN:  # detect pressed key
+                    scancode = event.scancode
+                    if scancode in self.dict_of_keys.keys():
+                        self.direction, self.manager.button_clicked = self.get_pressed_key(scancode=scancode,
+                                                                                           event=event)
+            if self.manager.button_clicked:  # update display if pressed key
+                self.gamematrix.move_numbers(direction=self.direction)
+                self.gamematrix.add_random_pair()
+                if self.testfinal: self.gamematrix.add_number(0, 0, 2048)
+                if self.test: self.gamematrix.print_matrix()
+                self.manager.update()
+                self.manager.process()
+                self.manager.button_clicked = False  # stop automatic update display
+            self.pygame.display.flip()
+        self.end_game()
+
+    def end_game(self):
+        self.pygame.quit()
+
+
 if __name__ == '__main__':
-    test = False
-    testfinal = False
-    BLACK = (0, 0, 0)
-    WHITE = (200, 200, 200)
-    WINDOW_HEIGHT = 400
-    WINDOW_WIDTH = WINDOW_HEIGHT
-    quantity_of_squares = 5
-    dict_of_keys = {80: 'left',
-                    79: 'right',
-                    82: 'up',
-                    81: 'down'
-                    }
-    pygame.init()
-    screen = pygame.display.set_mode([WINDOW_WIDTH, WINDOW_HEIGHT])
-    screen.fill([255, 255, 255])
-
-    gamematrix = Matrix(quantity_of_squares)
-    manager = GameManager(screen, gamematrix)
-
-    running = True
-    direction = ''
-    while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            if event.type == pygame.KEYDOWN:  # detect pressed key
-                scancode = event.scancode
-                if scancode in dict_of_keys.keys():
-                    direction, manager.button_clicked = get_pressed_key(scancode=scancode, event=event)
-        if manager.button_clicked:  # update display if pressed key
-            gamematrix.move_numbers(direction=direction)
-            gamematrix.add_random_pair()
-            if testfinal: gamematrix.add_number(0, 0, 2048)
-            if test: gamematrix.print_matrix()
-            manager.update()
-            manager.process()
-            manager.button_clicked = False  # stop automatic update display
-        pygame.display.flip()
-
-    pygame.quit()
+    my_game = GameProcess()
+    my_game.start_game()
