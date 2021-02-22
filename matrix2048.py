@@ -247,7 +247,6 @@ def the_2048_game(size=Constants.SIZE):
         else:
             continue
 
-
 class TestStringMethods(unittest.TestCase):
     def setUp(self) -> None:
         self.test_matrix = Matrix()
@@ -411,7 +410,7 @@ class TestStringMethods(unittest.TestCase):
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     utest = True
-    utest = False
+    #utest = False
     if utest:
         unittest.main()
     the_2048_game(3)
