@@ -1,5 +1,4 @@
-import pygame, sys, random
-from pygame.color import THECOLORS
+import pygame
 from matrix2048 import Matrix, Constants
 
 
@@ -32,7 +31,7 @@ class Game:
         # TODO: repair errors
         # TODO: make comments
         """
-        draw number 'element' by coords
+        draw number 'element' by coordinates
         :param row_number: int
         :param column_number: int
         :return:
@@ -83,7 +82,7 @@ class StartMenu:
 
     def draw(self):
         """
-        TODO: make startmenu in future
+        TODO: make start menu in future
         """
         pass
 
@@ -136,7 +135,7 @@ class GameManager:
 class GameProcess:
     def __init__(self):
         self.test = False
-        self.testfinal = True
+        self.test_final = True
         self.BLACK = Constants.BLACK
         self.WHITE = Constants.WHITE
         self.WINDOW_HEIGHT = self.WINDOW_WIDTH = Constants.WINDOW_HEIGHT
@@ -151,8 +150,8 @@ class GameProcess:
         self.pygame.init()
         self.screen = self.pygame.display.set_mode([self.WINDOW_WIDTH, self.WINDOW_HEIGHT])
         self.screen.fill([255, 255, 255])
-        self.gamematrix = Matrix(self.quantity_of_squares)
-        self.manager = GameManager(screen=self.screen, matrix=self.gamematrix, constants=self.constants)
+        self.game_matrix = Matrix(self.quantity_of_squares)
+        self.manager = GameManager(screen=self.screen, matrix=self.game_matrix, constants=self.constants)
         self.direction = None
         self.running = None
 
@@ -178,10 +177,10 @@ class GameProcess:
                         self.direction, self.manager.button_clicked = self.get_pressed_key(scancode=scancode,
                                                                                            event=event)
             if self.manager.button_clicked:  # update display if pressed key
-                self.gamematrix.move_numbers(direction=self.direction)
-                self.gamematrix.add_random_pair()
-                if self.testfinal: self.gamematrix.add_number(0, 0, 2048)
-                if self.test: self.gamematrix.print_matrix()
+                self.game_matrix.move_numbers(direction=self.direction)
+                self.game_matrix.add_random_pair()
+                if self.test_final: self.game_matrix.add_number(0, 0, 2048)
+                if self.test: self.game_matrix.print_matrix()
                 self.manager.update()
                 self.manager.process()
                 self.manager.button_clicked = False  # stop automatic update display
