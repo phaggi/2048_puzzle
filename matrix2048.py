@@ -6,7 +6,12 @@ from copy import deepcopy
 
 
 class Constants:
+    BLACK = (0, 0, 0)
+    WHITE = (200, 200, 200)
+    WINDOW_HEIGHT = 400
+    WINDOW_WIDTH = WINDOW_HEIGHT
     SIZE = 5
+
     KEY_UP_ALT = "\'\\uf700\'"
     KEY_DOWN_ALT = "\'\\uf701\'"
     KEY_LEFT_ALT = "\'\\uf702\'"
