@@ -133,15 +133,6 @@ class GameManager:
             self.scene = 1
 
 
-def get_pressed_key(scancode, event):
-    """
-
-    :param event:
-    :return: str direction
-    """
-    return dict_of_keys.get(scancode, None), True
-
-
 class GameProcess:
     def __init__(self):
         self.test = False
