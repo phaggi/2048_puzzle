@@ -220,11 +220,30 @@ class Matrix:
 
 
 def start_game():
-    utest = input('For UnitTest - press 1 and "Enter",\nfor run The Game in console - press Enter')
-    if utest:
-        unittest.main()
-    else:
-        the_2048_game(3)
+    game_on = True
+    while game_on:
+        input_text = '''
+2048 game
+Select:
+\t1 \t\t- \tfor UnitTest
+\t2-9 \t- \tfor run The Game in console - select Size of board (2-9) and press Enter,
+\tSpace \t- \tfor Stop
+\tW/S/A/D\t-\\for move ingame and Enter
+\tAfter select - hit Enter
+\t'''
+        selector = input(input_text)
+        if selector.isdigit():
+            selector = int(selector)
+            if selector == 1:
+                unittest.main()
+            elif 1 < selector < 10:
+                the_2048_game(selector)
+            else:
+                print('Select another Size')
+        elif selector == ' ':
+            game_on = False
+    print('Bye!')
+
 
 def the_2048_game(size=Constants.SIZE):
     result = 'Game stopped'
