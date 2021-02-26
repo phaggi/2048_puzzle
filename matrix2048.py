@@ -217,6 +217,12 @@ class Matrix:
                     zeros.append([i, j])
         return zeros
 
+def start_game():
+    utest = input('For UnitTest - press 1 and "Enter",\nfor run The Game in console - press Enter')
+    if utest:
+        unittest.main()
+    else:
+        the_2048_game(3)
 
 def the_2048_game(size=Constants.SIZE):
     m = Matrix(size)
@@ -415,9 +421,5 @@ class TestStringMethods(unittest.TestCase):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    utest = True
-    # utest = False
-    if utest:
-        unittest.main()
-    else:
-        the_2048_game(3)
+    start_game()
+
