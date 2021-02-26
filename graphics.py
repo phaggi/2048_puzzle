@@ -135,7 +135,7 @@ class GameManager:
 class GameProcess:
     def __init__(self):
         self.test = False
-        self.test_final = True
+        self.test_final = False
         self.BLACK = Constants.BLACK
         self.WHITE = Constants.WHITE
         self.WINDOW_HEIGHT = self.WINDOW_WIDTH = Constants.WINDOW_HEIGHT
@@ -164,26 +164,32 @@ class GameProcess:
         """
         return self.dict_of_keys.get(scancode, None), True
 
+    def detect_event(self, event):
+        if event.type == self.pygame.QUIT:
+            self.running = False
+        if event.type == pygame.KEYDOWN:  # detect pressed key
+            scancode = event.scancode
+            if scancode in self.dict_of_keys.keys():
+                self.direction, self.manager.button_clicked = self.get_pressed_key(scancode=scancode,
+                                                                                   event=event)
+
+    def update_display(self):
+        self.game_matrix.move_numbers(direction=self.direction)
+        self.game_matrix.add_random_pair()
+        if self.test_final: self.game_matrix.add_number(0, 0, 2048)
+        if self.test: self.game_matrix.print_matrix()
+        self.manager.update()
+        self.manager.process()
+        self.manager.button_clicked = False  # stop automatic update display
+
     def start_game(self):
         self.running = True
         self.direction = ''
         while self.running:
             for event in self.pygame.event.get():
-                if event.type == self.pygame.QUIT:
-                    self.running = False
-                if event.type == pygame.KEYDOWN:  # detect pressed key
-                    scancode = event.scancode
-                    if scancode in self.dict_of_keys.keys():
-                        self.direction, self.manager.button_clicked = self.get_pressed_key(scancode=scancode,
-                                                                                           event=event)
+                self.detect_event(event)
             if self.manager.button_clicked:  # update display if pressed key
-                self.game_matrix.move_numbers(direction=self.direction)
-                self.game_matrix.add_random_pair()
-                if self.test_final: self.game_matrix.add_number(0, 0, 2048)
-                if self.test: self.game_matrix.print_matrix()
-                self.manager.update()
-                self.manager.process()
-                self.manager.button_clicked = False  # stop automatic update display
+                self.update_display()
             self.pygame.display.flip()
         self.end_game()
 
