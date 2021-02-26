@@ -1,5 +1,5 @@
 import pygame
-from matrix2048 import Matrix, Constants
+from matrix2048text import Matrix, Constants
 
 
 class Game:
