@@ -38,6 +38,7 @@ class Constants:
                  'd': 'right',
                  ' ': 'bye'}
 
+
 class Matrix:
     def __init__(self, size=None):
         """
@@ -217,6 +218,7 @@ class Matrix:
                     zeros.append([i, j])
         return zeros
 
+
 def start_game():
     utest = input('For UnitTest - press 1 and "Enter",\nfor run The Game in console - press Enter')
     if utest:
@@ -225,6 +227,7 @@ def start_game():
         the_2048_game(3)
 
 def the_2048_game(size=Constants.SIZE):
+    result = 'Game stopped'
     m = Matrix(size)
     running = m.running
     m.print_matrix()
@@ -410,16 +413,7 @@ class TestStringMethods(unittest.TestCase):
         self.test_matrix.add_random_pair()
         self.assertNotEqual(self.test_matrix.matrix, result2)
 
-    '''
-    def test_split(self):
-        s = 'hello world'
-        self.assertEqual(s.split(), ['hello', 'world'])
-        # Проверим, что s.split не работает, если разделитель - не строка
-        with self.assertRaises(TypeError):
-            s.split(2)'''
-
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     start_game()
-
