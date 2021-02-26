@@ -193,6 +193,10 @@ class GameProcess:
         self.pygame.quit()
 
 
-if __name__ == '__main__':
+def start_game():
     my_game = GameProcess()
     my_game.start_game()
+
+
+if __name__ == '__main__':
+    start_game()
