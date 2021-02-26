@@ -38,6 +38,7 @@ class Constants:
                  'd': 'right',
                  ' ': 'bye'}
 
+
 class Matrix:
     def __init__(self, size=None):
         """
@@ -217,14 +218,35 @@ class Matrix:
                     zeros.append([i, j])
         return zeros
 
+
 def start_game():
-    utest = input('For UnitTest - press 1 and "Enter",\nfor run The Game in console - press Enter')
-    if utest:
-        unittest.main()
-    else:
-        the_2048_game(3)
+    game_on = True
+    while game_on:
+        input_text = '''
+2048 game
+Select:
+\t1 \t\t- \tfor UnitTest
+\t2-9 \t- \tfor run The Game in console - select Size of board (2-9) and press Enter,
+\tSpace \t- \tfor Stop
+\tW/S/A/D\t-\\for move ingame and Enter
+\tAfter select - hit Enter
+\t'''
+        selector = input(input_text)
+        if selector.isdigit():
+            selector = int(selector)
+            if selector == 1:
+                unittest.main()
+            elif 1 < selector < 10:
+                the_2048_game(selector)
+            else:
+                print('Select another Size')
+        elif selector == ' ':
+            game_on = False
+    print('Bye!')
+
 
 def the_2048_game(size=Constants.SIZE):
+    result = 'Game stopped'
     m = Matrix(size)
     running = m.running
     m.print_matrix()
@@ -410,16 +432,7 @@ class TestStringMethods(unittest.TestCase):
         self.test_matrix.add_random_pair()
         self.assertNotEqual(self.test_matrix.matrix, result2)
 
-    '''
-    def test_split(self):
-        s = 'hello world'
-        self.assertEqual(s.split(), ['hello', 'world'])
-        # Проверим, что s.split не работает, если разделитель - не строка
-        with self.assertRaises(TypeError):
-            s.split(2)'''
-
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     start_game()
-
