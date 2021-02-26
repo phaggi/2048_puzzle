@@ -28,6 +28,15 @@ class Constants:
     KEY_L = "'l'"
     KEY_H = "'h'"
 
+    codes_of_keys = {80: 'left',
+                     79: 'right',
+                     82: 'up',
+                     81: 'down'}
+    game_keys = {'w': 'up',
+                 's': 'down',
+                 'a': 'left',
+                 'd': 'right',
+                 ' ': 'bye'}
 
 class Matrix:
     def __init__(self, size=None):
@@ -213,11 +222,7 @@ def the_2048_game(size=Constants.SIZE):
     m = Matrix(size)
     running = m.running
     m.print_matrix()
-    game_keys = {'w': 'up',
-                 's': 'down',
-                 'a': 'left',
-                 'd': 'right',
-                 ' ': 'bye'}
+    game_keys = Constants.game_keys
     while running:
         key = input()
         if key is None:
@@ -246,6 +251,7 @@ def the_2048_game(size=Constants.SIZE):
                 print('Bye')
         else:
             continue
+
 
 class TestStringMethods(unittest.TestCase):
     def setUp(self) -> None:
@@ -410,7 +416,8 @@ class TestStringMethods(unittest.TestCase):
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     utest = True
-    #utest = False
+    # utest = False
     if utest:
         unittest.main()
-    the_2048_game(3)
+    else:
+        the_2048_game(3)

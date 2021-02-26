@@ -141,11 +141,7 @@ class GameProcess:
         self.WINDOW_HEIGHT = self.WINDOW_WIDTH = Constants.WINDOW_HEIGHT
         self.constants = (self.WHITE, self.BLACK, self.WINDOW_WIDTH, self.WINDOW_HEIGHT)
         self.quantity_of_squares = Constants.SIZE
-        self.dict_of_keys = {80: 'left',
-                             79: 'right',
-                             82: 'up',
-                             81: 'down'
-                             }
+        self.dict_of_keys = Constants.codes_of_keys
         self.pygame = pygame
         self.pygame.init()
         self.screen = self.pygame.display.set_mode([self.WINDOW_WIDTH, self.WINDOW_HEIGHT])
