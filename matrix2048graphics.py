@@ -14,14 +14,18 @@ class Game:
 
     def make_img(self):
         # render a given font into an image
-        font_fg_color = self.BLACK
-        font_bg_color = self.WHITE
-        font = pygame.font.SysFont('Arial', int(self.screen.get_width() / (4 * self.matrix.size)), bold=True)
+        font_fg_color = self.WHITE
+        font_bg_color = self.BLACK
+        font = pygame.font.SysFont('Arial', int(self.screen.get_width() / (2 * self.matrix.size)), bold=True)
         return font.render(str(self.element), True,
                            pygame.Color(font_fg_color),
                            pygame.Color(font_bg_color))
 
     def check_element(self):
+        """
+
+        :return:
+        """
         if self.element == 0:
             self.element = ' '
         elif self.element == 2048:
@@ -69,10 +73,11 @@ class Game:
         block_size = self.WINDOW_WIDTH / self.matrix.size  # Set the size of the grid block
         for x in range(self.WINDOW_WIDTH):
             for y in range(self.WINDOW_HEIGHT):
-                rect = pygame.Rect(x * block_size, y * block_size,
-                                   block_size, block_size)
-                pygame.draw.rect(self.screen, self.WHITE, rect, 1)
+                rect = pygame.Rect(x * block_size + 1, y * block_size + 1,
+                                   block_size - 1, block_size - 1)
+                pygame.draw.rect(surface=self.screen, color=self.BLACK, rect=rect)
         self.draw_numbers()
+        pygame.display.flip()
 
 
 class StartMenu:
