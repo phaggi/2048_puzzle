@@ -1,4 +1,5 @@
 import pygame
+import pygame_menu
 from matrix2048text import Matrix, Constants
 
 
@@ -85,11 +86,24 @@ class StartMenu:
         self.screen = screen
         self.WHITE = constants[0]
 
-    def draw(self):
-        """
-        TODO: make start menu in future
-        """
+
+
+    def set_difficulty(value, difficulty):
+        self.size = difficulty
+
+    def start_the_game():
+        # Do the job here !
         pass
+
+    def draw(self):
+        menu = pygame_menu.Menu(300, 400, 'Welcome',
+                                theme=pygame_menu.themes.THEME_DARK)
+
+        menu.add_selector('Difficulty :', [('4', 4), ('5', 5), ('3', 3)], onchange=set_difficulty)
+        menu.add_button('Play', self.start_the_game())
+        menu.add_button('Quit', pygame_menu.events.EXIT)
+
+        menu.mainloop(self.screen)
 
 
 class Final:
