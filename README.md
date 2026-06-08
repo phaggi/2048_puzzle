@@ -35,4 +35,4 @@ python matrix2048graphics.py
 
 ## Лицензия
 
-MIT (или просто "учебный проект").
+MIT
